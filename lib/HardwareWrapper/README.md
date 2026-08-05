@@ -26,3 +26,37 @@ ledName.getStatus(); // Returns a boolean. Does not check the actual state of th
 ```
 
 LED devices with multiple colors are not supported (yet).
+
+
+### MomentaryButton
+Define a momentary button with
+```c++
+MomentaryButton buttonName(pinNumber, dbMillis, inverted);
+```
+`dbMillis` is optional, and if not supplied defaults to 25.
+`inverted` is option, and if not supplied defaults to true.
+`inverted` makes LOW = true and HIGH = false.
+
+Initialize a button's pin with
+```c++
+buttonName.init();
+```
+inside your `setup()` function.
+
+Read a buttons state with
+```c++
+buttonName.isDown(direct);
+```
+the `direct` boolean lets you read the pinstate directly rather if you want to ignore debounce.
+
+Button press
+```c++
+buttonName.wasPressed();
+```
+Returns true for an instant after the button was pressed. Debounce applied.
+
+Button release
+```c++
+buttonName.wasReleased();
+```
+Returns true for an instant after the button was released. Debounce applied.
