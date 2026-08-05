@@ -10,9 +10,7 @@ void setup() {
 }
 
 void loop() {
-  if (button.wasPressed()) {
-    statusLED.setState(!statusLED.getState());
-  }
+  statusLED.setState(button.wasPressed());
   button.update();
   delay(1);
 }
