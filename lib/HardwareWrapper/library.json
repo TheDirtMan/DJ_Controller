@@ -1,0 +1,23 @@
+{
+  "name": "HardwareWrapper",
+  "version": "0.1.0",
+  "description": "Reusable hardware components for Arduino/Teensy projects. May not work for you ;)",
+  "keywords": [
+    "arduino",
+    "teensy",
+    "hardware",
+    "embedded"
+  ],
+  "authors": [
+    {
+      "name": "TheDirtMan"
+    }
+  ],
+  "license": "MIT",
+  "frameworks": [
+    "arduino"
+  ],
+  "platforms": [
+    "teensy"
+  ]
+}

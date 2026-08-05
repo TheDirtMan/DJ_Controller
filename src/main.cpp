@@ -1,10 +1,13 @@
 #include <Arduino.h>
+#include <HardwareWrapper.h>
+
+LED statusLED(LED_BUILTIN);
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
+  statusLED.init();
 }
 
 void loop() {
-  digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+  statusLED.setState(!statusLED.getState());
   delay(1000);
 }
