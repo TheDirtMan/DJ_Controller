@@ -1,62 +1,105 @@
-Include HardwareWrapper.h to automatically include all hardware types.
-It is completely optional, you can just include each hardware class as you need it.
+# Hardware Wrapper
+
+Include `HardwareWrapper.h` to automatically include all supported hardware types.
+
+```cpp
+#include <HardwareWrapper.h>
+```
+
+This is completely optional. You can also include each hardware class individually if you only need specific hardware types.
+
+---
 
 # Hardware and Features
 
-### LED
-Define an LED device with
-```c++
+## LED
+
+Create an LED device with:
+
+```cpp
 LED ledName(pinNumber);
 ```
 
-Initialize an LED device's pin with
-```c++
+Initialize the LED's pin inside your `setup()` function:
+
+```cpp
 ledName.init();
 ```
-inside your `setup()` function.
 
-Set the state of an LED device with
-```c++
+Set the state of an LED with:
+
+```cpp
 ledName.setStatus(true);
 ```
 
-Get the state of an LED device with
-```c++
-ledName.getStatus(); // Returns a boolean. Does not check the actual state of the pin.
+Get the current state of an LED with:
+
+```cpp
+ledName.getStatus();
 ```
 
-LED devices with multiple colors are not supported (yet).
+This returns a boolean representing the state last set by the device. It does **not** read the actual state of the pin.
 
+LED devices with multiple colors are not currently supported.
 
-### MomentaryButton
-Define a momentary button with
-```c++
+---
+
+## MomentaryButton
+
+Create a momentary button with:
+
+```cpp
 MomentaryButton buttonName(pinNumber, dbMillis, inverted);
 ```
-`dbMillis` is optional, and if not supplied defaults to 25.
-`inverted` is option, and if not supplied defaults to true.
-`inverted` makes LOW = true and HIGH = false.
 
-Initialize a button's pin with
-```c++
+`dbMillis` controls the debounce time in milliseconds. If not provided, it defaults to `25`.
+
+`inverted` controls the button's logic. If not provided, it defaults to `true`.
+
+When inverted is enabled:
+
+* `LOW` = pressed (`true`)
+* `HIGH` = released (`false`)
+
+Initialize the button's pin inside your `setup()` function:
+
+```cpp
 buttonName.init();
 ```
-inside your `setup()` function.
 
-Read a buttons state with
-```c++
+### Reading Button State
+
+Read the current state of a button with:
+
+```cpp
 buttonName.isDown(direct);
 ```
-the `direct` boolean lets you read the pinstate directly rather if you want to ignore debounce.
 
-Button press
-```c++
+`direct` controls whether the debounce system is ignored.
+
+* `false` reads the debounced state.
+* `true` reads the pin state directly.
+
+### Detecting Button Presses
+
+Check if a button was pressed with:
+
+```cpp
 buttonName.wasPressed();
 ```
-Returns true for an instant after the button was pressed. Debounce applied.
 
-Button release
-```c++
+Returns `true` for one update cycle after the button is pressed.
+
+Debouncing is applied.
+
+### Detecting Button Releases
+
+Check if a button was released with:
+
+```cpp
 buttonName.wasReleased();
 ```
-Returns true for an instant after the button was released. Debounce applied.
+
+Returns `true` for one update cycle after the button is released.
+
+Debouncing is applied.
