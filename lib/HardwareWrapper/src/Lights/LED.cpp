@@ -32,6 +32,7 @@ void LED::setState(bool state) {
 
 void LED::init() {
     pinMode(pinNumber, OUTPUT);
+    setState(status);
 }
 
 
@@ -43,6 +44,6 @@ float LED::getBrightness(bool direct) {
 }
 
 void LED::setBrightness(float newBrightness) {
-    brightness = newBrightness*255;
+    brightness = constrain(newBrightness, 0.0f, 1.0f)*255;
     setState(status);
 }

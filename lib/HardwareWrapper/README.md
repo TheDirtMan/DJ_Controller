@@ -1,138 +1,219 @@
 # Hardware Wrapper
 
-Include `HardwareWrapper.h` to include all supported hardware classes at once.
+Include `HardwareWrapper.h` to include all supported hardware classes at once:
 
 ```cpp
 #include <HardwareWrapper.h>
 ```
 
-This is completely optional. You can also include each hardware class individually if you only need specific hardware types.
+This is optional. You can also include individual hardware classes if you only need specific types.
 
 ---
+## Lights
 
-# Hardware and Features
+### LED
+___
+Include the LED module (if not using `HardwareWrapper.h`):
 
-## LED
+```cpp
+#include <Lights/LED.h>
+```
 
-Create an LED device with:
+#### Create an LED
 
 ```cpp
 LED ledName(pinNumber);
 ```
-___
-Initialize the LED's pin inside your `setup()` function:
+
+#### Initialize
+
+Call in your `setup()` function:
 
 ```cpp
 ledName.init();
 ```
-___
-Set the state of an LED with:
+
+#### Set State
+
+`true` turns the LED on, `false` turns it off.
 
 ```cpp
-ledName.setState(status);
+ledName.setState(status);  // status is a boolean
 ```
 
-`status` is a boolean value. `true` turns the LED on, and `false` turns it off.
-___
-Get the current state of an LED with:
+#### Get State
 
 ```cpp
 ledName.getState(direct);
 ```
 
-`direct` controls whether the pin is read directly.
+`direct` is optional (default: `false`):
+- `false`: Reads the stored state
+- `true`: Reads the pin directly and updates stored state if mismatched
 
-* `false` reads the stored status.
-* `true` reads the pin state directly, and updates the stored status if unmatched.
+#### Set Brightness (PWM-capable pins only)
 
-The default value is `false`.
-___
-If your LED is connected to a PWM-capable pin, you can control its brightness.
-___
-Set the brightness of an LED with
-
-```c++
-ledName.setBrightness(brightness);
+```cpp
+ledName.setBrightness(brightness);  // brightness is a float 0.0-1.0
 ```
 
-Brightness is a float 0.0-1.0.
-___
-Read the brightness of an LED with
+#### Get Brightness
 
-```c++
+```cpp
 ledName.getBrightness(direct);
 ```
 
-This returns a float 0.0-1.0.
+Returns a float `0.0-1.0`.
 
-`direct` controls whether the pin is read directly.
+`direct` is optional (default: `false`):
+- `false`: Reads the stored brightness
+- `true`: Reads the pin directly and updates stored brightness if mismatched
 
-* `false` reads the stored brightness.
-* `true` reads the pin state directly, and updates the stored brightness if unmatched.
+> **Note**: The `LED` class is for single-color LEDs only. For multicolor LEDs, use the `RGBLED` class.
 
-Default state is `false`.
+---
 
+### RGBLED
 ___
-LED devices with multiple colors are not currently supported.
+Include the RGBLED module (if not using `HardwareWrapper.h`):
 
-## MomentaryButton
+```cpp
+#include <Lights/RGBLED.h>
+```
 
-Create a momentary button with:
+#### Create an RGB LED
+
+```cpp
+RGBLED ledName(redPin, greenPin, bluePin, inverted, redBalance, greenBalance, blueBalance);
+```
+
+Parameters:
+- `redPin`, `greenPin`, `bluePin`: Pin numbers for each channel
+- `inverted` (optional, default: `false`): When `true`, LOW = on and HIGH = off
+- `redBalance`, `greenBalance`, `blueBalance` (optional, default: `1.0` each): Color balance values as floats `0.0-1.0`
+
+The class automatically detects PWM support:
+- PWM-capable pins: Uses `analogWrite` for smooth brightness
+- Non-PWM pins: Uses `digitalWrite`
+
+#### Initialize
+
+Call in your `setup()` function:
+
+```cpp
+ledName.init();
+```
+
+#### Set State
+
+```cpp
+ledName.setState(status);  // status is a boolean
+```
+
+#### Get State
+
+```cpp
+bool isOn = ledName.getState();
+```
+
+Returns `true` if on, `false` if off.
+
+#### Set Overall Brightness
+
+```cpp
+ledName.setBrightness(brightness);  // brightness is a float 0.0-1.0
+```
+
+Controls all color channels simultaneously.
+
+#### Get Overall Brightness
+
+```cpp
+float brightness = ledName.getBrightness();  // Returns float 0.0-1.0
+```
+
+#### Set Color
+
+```cpp
+ledName.setColor(red, green, blue);  // Each is a float 0.0-1.0
+```
+
+#### Get Color
+
+```cpp
+std::tuple<float, float, float> color = ledName.getColor();
+float red = std::get<0>(color);
+float green = std::get<1>(color);
+float blue = std::get<2>(color);
+```
+
+Returns a tuple of three floats `0.0-1.0` representing the current color intensities.
+
+#### Color Balance
+
+Color balance values are applied automatically. For example, if your red channel is too bright, set `redBalance` to `0.8` to reduce its relative intensity.
+
+---
+
+## Buttons
+
+### MomentaryButton
+___
+Include the MomentaryButton module (if not using `HardwareWrapper.h`):
+
+```cpp
+#include <Buttons/MomentaryButton.h>
+```
+
+#### Create a Button
 
 ```cpp
 MomentaryButton buttonName(pinNumber, dbMillis, inverted);
 ```
 
-`dbMillis` controls the debounce time in milliseconds. If not provided, default value is `25`.
+Parameters:
+- `pinNumber`: Pin number
+- `dbMillis` (optional, default: `25`): Debounce time in milliseconds
+- `inverted` (optional, default: `true`): When `true`, LOW = pressed (`true`) and HIGH = released (`false`)
 
-`inverted` controls the button's logic. If not provided, default value is `true`.
+#### Initialize
 
-When inverted is enabled:
-
-* `LOW` = pressed (`true`)
-* `HIGH` = released (`false`)
-___
-Initialize the button's pin inside your `setup()` function:
+Call in your `setup()` function:
 
 ```cpp
 buttonName.init();
 ```
-___
-Read the current state of a button with:
+
+#### Check if Pressed (Current State)
 
 ```cpp
 buttonName.isDown(direct);
 ```
 
-`direct` controls whether the debounce system is ignored.
+`direct` is optional (default: `false`):
+- `false`: Reads debounced state
+- `true`: Reads pin directly (bypasses debounce)
 
-* `false` reads the debounced state.
-* `true` reads the pin state directly.
-
-Default state is `false`.
-___
-Check if a button was pressed with:
+#### Check if Was Pressed (Edge Detection)
 
 ```cpp
-buttonName.wasPressed();
+bool pressed = buttonName.wasPressed();
 ```
 
-Returns `true` for one update cycle after the button is pressed.
+Returns `true` for one update cycle after a press is detected (with debouncing applied).
 
-Debouncing is applied.
-___
-Check if a button was released with:
+#### Check if Was Released (Edge Detection)
 
 ```cpp
-buttonName.wasReleased();
+bool released = buttonName.wasReleased();
 ```
 
-Returns `true` for one update cycle after the button is released.
+Returns `true` for one update cycle after a release is detected (with debouncing applied).
 
-Debouncing is applied.
-___
-If using either `wasPressed()` or `wasReleased()`, you must include the following in your `loop()` function.
+#### Update
 
-```c++
+When using `wasPressed()` or `wasReleased()`, call this in your `loop()` function:
+
+```cpp
 buttonName.update();
 ```
