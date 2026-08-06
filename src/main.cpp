@@ -2,15 +2,16 @@
 #include <HardwareWrapper.h>
 
 LED statusLED(LED_BUILTIN);
-MomentaryButton button(3);
 
 void setup() {
   statusLED.init();
-  button.init();
+  statusLED.setState(true);
 }
 
 void loop() {
-  statusLED.setState(button.wasPressed());
-  button.update();
+  float brightness = ((sin(millis() / 1000.0f) + 1.0f) / 2.0f) + 0.01;
+
+  statusLED.setBrightness(brightness);
+  
   delay(1);
 }

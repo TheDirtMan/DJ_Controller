@@ -5,13 +5,20 @@ class LED {
         bool status;
         int pinNumber;
 
+        int brightness;
+
+        bool PWMPin;
+
     public:
 
         LED(int pin);
 
-        bool getState();
+        bool getState(bool direct = false);
         void setState(bool state);
         void init();
+
+        void setBrightness(float brightness);
+        float getBrightness(bool direct = false);
 
 
 };
