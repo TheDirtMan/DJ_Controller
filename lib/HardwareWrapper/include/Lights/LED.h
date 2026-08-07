@@ -7,11 +7,13 @@ class LED {
 
         int brightness;
 
+        bool inverted;
+
         bool PWMPin;
 
     public:
 
-        LED(int pin);
+        LED(int pin, bool inverted = false);
 
         bool getState(bool direct = false);
         void setState(bool state);

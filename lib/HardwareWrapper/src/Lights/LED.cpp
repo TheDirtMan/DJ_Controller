@@ -1,10 +1,12 @@
 #include <Lights/LED.h>
 #include <Arduino.h>
 
-LED::LED(int pin) {
+LED::LED(int pin, bool inverted) {
     pinNumber = pin;
-    status = false;
+    status = inverted;
     brightness = 255;
+
+    this->inverted = inverted;
 
     PWMPin = digitalPinHasPWM(pinNumber);
 }
@@ -12,13 +14,17 @@ LED::LED(int pin) {
 
 bool LED::getState(bool direct) {
     if (direct) {
-        status = digitalReadFast(pinNumber) == HIGH;
+        if (inverted) {
+            status = digitalReadFast(pinNumber) == LOW;
+        } else {
+            status = digitalReadFast(pinNumber) == HIGH;
+        }
     }
     return status;
 }
 
 void LED::setState(bool state) {
-    status = state;
+    status = inverted ? !state : state;
     if (state) {
         if (PWMPin) {
             analogWrite(pinNumber, brightness);
@@ -26,7 +32,11 @@ void LED::setState(bool state) {
             digitalWriteFast(pinNumber, brightness > 0);
         }
     } else {
-        digitalWriteFast(pinNumber, 0);
+        if (PWMPin) {
+            analogWrite(pinNumber, 0);
+        } else {
+            digitalWriteFast(pinNumber, LOW);
+        }
     }
 }
 

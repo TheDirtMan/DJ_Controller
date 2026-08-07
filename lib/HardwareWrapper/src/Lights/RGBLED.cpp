@@ -10,7 +10,7 @@ RGBLED::RGBLED(
         this->greenPinNumber = greenPinNumber;
         this->bluePinNumber = bluePinNumber;
 
-        status = false;
+        status = inverted;
 
         redPWMPin = digitalPinHasPWM(redPinNumber);
         greenPWMPin = digitalPinHasPWM(greenPinNumber);
@@ -64,9 +64,23 @@ void RGBLED::updatePins() {
             digitalWriteFast(bluePinNumber, bluePWMValue >= 128 ? HIGH : LOW);
         }
     } else {
-        digitalWriteFast(redPinNumber, inverted ? HIGH : LOW);
-        digitalWriteFast(greenPinNumber, inverted ? HIGH : LOW);
-        digitalWriteFast(bluePinNumber, inverted ? HIGH : LOW);
+        if (redPWMPin) {
+            analogWrite(redPinNumber, 0);
+        } else {
+            digitalWriteFast(redPinNumber, inverted ? HIGH : LOW);
+        }
+
+        if (greenPWMPin) {
+            analogWrite(greenPinNumber, 0);
+        } else {
+            digitalWriteFast(greenPinNumber, inverted ? HIGH : LOW);
+        }
+
+        if (bluePWMPin) {
+            analogWrite(bluePinNumber, 0);
+        } else {
+            digitalWriteFast(bluePinNumber, inverted ? HIGH : LOW);
+        }
     }
 }
 

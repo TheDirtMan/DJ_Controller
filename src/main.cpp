@@ -3,15 +3,27 @@
 
 LED statusLED(LED_BUILTIN);
 
+MomentaryButton onButton(3);
+MomentaryButton offButton(4);
+
 void setup() {
   statusLED.init();
   statusLED.setState(true);
+
+  onButton.init();
+  offButton.init();
 }
 
 void loop() {
-  float brightness = ((sin(millis() / 1000.0f) + 1.0f) / 2.0f) + 0.01;
+  if (onButton.wasPressed()) {
+    statusLED.setState(true);
+  }
+  if (offButton.wasPressed()) {
+    statusLED.setState(false);
+  }
 
-  statusLED.setBrightness(brightness);
+  onButton.update();
+  offButton.update();
   
   delay(1);
 }

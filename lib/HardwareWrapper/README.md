@@ -22,8 +22,10 @@ Include the LED module (if not using `HardwareWrapper.h`):
 #### Create an LED
 
 ```cpp
-LED ledName(pinNumber);
+LED ledName(pinNumber, inverted);
 ```
+
+`inverted` (optional, default: `false`): When `true`, LOW = on and HIGH = off
 
 #### Initialize
 
@@ -212,7 +214,7 @@ Returns `true` for one update cycle after a release is detected (with debouncing
 
 #### Update
 
-When using `wasPressed()` or `wasReleased()`, call this in your `loop()` function:
+When using `wasPressed()`, `wasReleased()`, or `isDown() // Without the direct option set to true`, call this in your `loop()` function:
 
 ```cpp
 buttonName.update();
