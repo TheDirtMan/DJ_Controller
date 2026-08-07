@@ -49,37 +49,37 @@ void RGBLED::updatePins() {
         if (redPWMPin) {
             analogWrite(redPinNumber, redPWMValue);
         } else {
-            digitalWriteFast(redPinNumber, redPWMValue >= 128 ? HIGH : LOW);
+            digitalWrite(redPinNumber, redPWMValue >= 128 ? HIGH : LOW);
         }
 
         if (greenPWMPin) {
             analogWrite(greenPinNumber, greenPWMValue);
         } else {
-            digitalWriteFast(greenPinNumber, greenPWMValue >= 128 ? HIGH : LOW);
+            digitalWrite(greenPinNumber, greenPWMValue >= 128 ? HIGH : LOW);
         }
 
         if (bluePWMPin) {
             analogWrite(bluePinNumber, bluePWMValue);
         } else {
-            digitalWriteFast(bluePinNumber, bluePWMValue >= 128 ? HIGH : LOW);
+            digitalWrite(bluePinNumber, bluePWMValue >= 128 ? HIGH : LOW);
         }
     } else {
         if (redPWMPin) {
             analogWrite(redPinNumber, 0);
         } else {
-            digitalWriteFast(redPinNumber, inverted ? HIGH : LOW);
+            digitalWrite(redPinNumber, inverted ? HIGH : LOW);
         }
 
         if (greenPWMPin) {
             analogWrite(greenPinNumber, 0);
         } else {
-            digitalWriteFast(greenPinNumber, inverted ? HIGH : LOW);
+            digitalWrite(greenPinNumber, inverted ? HIGH : LOW);
         }
 
         if (bluePWMPin) {
             analogWrite(bluePinNumber, 0);
         } else {
-            digitalWriteFast(bluePinNumber, inverted ? HIGH : LOW);
+            digitalWrite(bluePinNumber, inverted ? HIGH : LOW);
         }
     }
 }

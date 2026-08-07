@@ -29,13 +29,13 @@ void LED::setState(bool state) {
         if (PWMPin) {
             analogWrite(pinNumber, brightness);
         } else {
-            digitalWriteFast(pinNumber, brightness > 0);
+            digitalWrite(pinNumber, brightness > 0);
         }
     } else {
         if (PWMPin) {
             analogWrite(pinNumber, 0);
         } else {
-            digitalWriteFast(pinNumber, LOW);
+            digitalWrite(pinNumber, LOW);
         }
     }
 }
