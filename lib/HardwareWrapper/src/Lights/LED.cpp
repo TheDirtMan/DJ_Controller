@@ -54,6 +54,10 @@ float LED::getBrightness(bool direct) {
 }
 
 void LED::setBrightness(float newBrightness) {
-    brightness = constrain(newBrightness, 0.0f, 1.0f)*255;
+    if (inverted) {
+        brightness = (1.0f-constrain(newBrightness, 0.0f, 1.0f))*255;
+    } else {
+        brightness = constrain(newBrightness, 0.0f, 1.0f)*255;
+    }
     setState(status);
 }
