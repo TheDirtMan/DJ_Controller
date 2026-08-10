@@ -1,6 +1,6 @@
 {
   "name": "HardwareWrapper",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Reusable hardware components for Arduino/Teensy projects. May not work for you ;)",
   "keywords": [
     "arduino",
