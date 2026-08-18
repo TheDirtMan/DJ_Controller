@@ -2,28 +2,35 @@
 #include <HardwareWrapper.h>
 
 LED statusLED(LED_BUILTIN);
+ONOFFSwitch toggleSwitch(2);
+ONOFFSwitch direction(3);
+MomentaryButton adjustor(4);
 
-MomentaryButton onButton(3);
-MomentaryButton offButton(4);
+float brightness = 0.5;
 
 void setup() {
   statusLED.init();
-  statusLED.setState(true);
-
-  onButton.init();
-  offButton.init();
+  toggleSwitch.init();
+  direction.init();
+  adjustor.init();
 }
 
 void loop() {
-  if (onButton.wasPressed()) {
-    statusLED.setState(true);
+  statusLED.setState(toggleSwitch.getState());
+  if (adjustor.isDown()) {
+    if (direction.getState()) {
+      if (brightness < 1.00) {
+        brightness += 0.01;
+      }
+    } else {
+      if (brightness > 0.01) {
+        brightness -= 0.01
+      }
+    }
   }
-  if (offButton.wasPressed()) {
-    statusLED.setState(false);
-  }
-
-  onButton.update();
-  offButton.update();
-  
+  statusLED.setBrightness(brightness);
+  toggleSwitch.update();
+  direction.update();
+  adjustor.update();
   delay(1);
 }

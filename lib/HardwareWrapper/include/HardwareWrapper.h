@@ -6,3 +6,4 @@
 #include "Lights/LED.h"
 #include "Lights/RGBLED.h"
 #include "Buttons/MomentaryButton.h"
+#include "Switches/ONOFFSwitch.h"
