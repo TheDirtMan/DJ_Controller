@@ -20,11 +20,11 @@ void loop() {
   if (adjustor.isDown()) {
     if (direction.getState()) {
       if (brightness < 1.00) {
-        brightness += 0.01;
+        brightness += 0.001;
       }
     } else {
       if (brightness > 0.01) {
-        brightness -= 0.01
+        brightness -= 0.001;
       }
     }
   }
