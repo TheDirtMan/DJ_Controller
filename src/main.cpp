@@ -1,36 +1,18 @@
+#include "pins_arduino.h"
 #include <Arduino.h>
 #include <HardwareWrapper.h>
 
-LED statusLED(LED_BUILTIN);
-ONOFFSwitch toggleSwitch(2);
-ONOFFSwitch direction(3);
-MomentaryButton adjustor(4);
-
-float brightness = 0.5;
+Potentiometer knob(A0);
+LED builtin(LED_BUILTIN);
 
 void setup() {
-  statusLED.init();
-  toggleSwitch.init();
-  direction.init();
-  adjustor.init();
+  knob.init();
+  builtin.init();
+  builtin.setState(true);
 }
 
 void loop() {
-  statusLED.setState(toggleSwitch.getState());
-  if (adjustor.isDown()) {
-    if (direction.getState()) {
-      if (brightness < 1.00) {
-        brightness += 0.001;
-      }
-    } else {
-      if (brightness > 0.01) {
-        brightness -= 0.001;
-      }
-    }
-  }
-  statusLED.setBrightness(brightness);
-  toggleSwitch.update();
-  direction.update();
-  adjustor.update();
+  knob.update();
+  builtin.setBrightness(knob.getPosition());
   delay(1);
 }

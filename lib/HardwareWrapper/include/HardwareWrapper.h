@@ -7,3 +7,4 @@
 #include "Lights/RGBLED.h"
 #include "Buttons/MomentaryButton.h"
 #include "Switches/ONOFFSwitch.h"
+#include "Potentiometers/Potentiometer.h"
