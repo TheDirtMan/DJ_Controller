@@ -16,7 +16,13 @@ Potentiometer::Potentiometer(int pin, float alpha, int res, int min, int max, bo
 
 
 float Potentiometer::normalize(int value) {
-    return (float)(value - rawMin) / (rawMax - rawMin);
+    float normalized = (float)(value - rawMin) / (rawMax - rawMin);
+
+    if (inverted) {
+        normalized = 1.0f - normalized;
+    }
+
+    return normalized;
 }
 
 float Potentiometer::getPosition(bool direct) {
