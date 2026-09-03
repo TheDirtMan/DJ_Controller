@@ -219,3 +219,98 @@ When using `wasPressed()`, `wasReleased()`, or `isDown() // Without the direct o
 ```cpp
 buttonName.update();
 ```
+___
+## Potentiometers
+
+### Potentiometer
+
+___
+
+Include the Potentiometer module (if not using `HardwareWrapper.h`):
+
+```cpp
+#include <Potentiometers/Potentiometer.h>
+```
+
+#### Create a Potentiometer
+
+```cpp
+Potentiometer potName(pinNumber, alpha, resolution, rawMin, rawMax, inverted);
+```
+
+Parameters:
+
+- `pinNumber`: Pin number
+- `alpha` (optional, default: `0.3`): Filter strength as a float `0.0-1.0`
+- `resolution` (optional, default: `12`): Analog read resolution in bits
+- `rawMin` (optional, default: `0`): Minimum raw analog reading
+- `rawMax` (optional, default: `4095`): Maximum raw analog reading
+- `inverted` (optional, default: `false`): When `true`, the output is inverted
+
+The potentiometer converts its raw analog reading into a float `0.0-1.0` based on `rawMin` and `rawMax`.
+
+#### Initialize
+
+Call in your `setup()` function:
+
+```cpp
+potName.init();
+```
+
+This sets the analog read resolution, disables analog averaging, reads the initial potentiometer position, and initializes the filtered output.
+
+#### Update
+
+Call in your `loop()` function:
+
+```cpp
+potName.update();
+```
+
+Reads the potentiometer and applies the configured filter before updating the useful output.
+
+#### Get Position
+
+```cpp
+potName.getPosition(direct);
+```
+
+Returns a float `0.0-1.0`.
+
+`direct` is optional (default: `false`):
+
+- `false`: Reads the filtered position
+- `true`: Reads the current raw position directly without filtering
+
+#### Set Minimum
+
+```cpp
+potName.setMin(newMin);
+```
+
+Sets the minimum raw analog reading used for normalization.
+
+#### Set Maximum
+
+```cpp
+potName.setMax(newMax);
+```
+
+Sets the maximum raw analog reading used for normalization.
+
+#### Filtering
+
+The `alpha` parameter controls how quickly the filtered output responds to changes:
+
+- `0.0`: The filtered output does not change
+- `1.0`: No filtering; the filtered output immediately matches the raw reading
+- Values between `0.0-1.0`: Applies filtering between the previous and current readings
+
+#### Inversion
+
+When `inverted` is set to `true`, the normalized output is inverted:
+
+- Normal: `0.0` → `1.0`
+- Inverted: `1.0` → `0.0`
+
+---
