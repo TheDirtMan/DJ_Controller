@@ -18,7 +18,7 @@ class MomentaryButton {
     public:
 
 
-        MomentaryButton(int pin, unsigned long dbMillis = 25, bool inverted = true);
+        MomentaryButton(int pin, unsigned long dbMillis = 5, bool inverted = true);
 
         bool isDown(bool direct = false);
         bool wasPressed();

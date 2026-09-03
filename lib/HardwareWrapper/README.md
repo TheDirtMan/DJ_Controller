@@ -175,7 +175,7 @@ MomentaryButton buttonName(pinNumber, dbMillis, inverted);
 
 Parameters:
 - `pinNumber`: Pin number
-- `dbMillis` (optional, default: `25`): Debounce time in milliseconds
+- `dbMillis` (optional, default: `5`): Debounce time in milliseconds
 - `inverted` (optional, default: `true`): When `true`, LOW = pressed (`true`) and HIGH = released (`false`)
 
 #### Initialize
