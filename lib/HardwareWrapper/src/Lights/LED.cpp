@@ -15,9 +15,9 @@ LED::LED(int pin, bool inverted) {
 bool LED::getState(bool direct) {
     if (direct) {
         if (inverted) {
-            status = digitalReadFast(pinNumber) == LOW;
+            status = digitalRead(pinNumber) == LOW;
         } else {
-            status = digitalReadFast(pinNumber) == HIGH;
+            status = digitalRead(pinNumber) == HIGH;
         }
     }
     return status;

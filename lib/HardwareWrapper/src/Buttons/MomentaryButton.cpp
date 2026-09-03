@@ -22,7 +22,7 @@ void MomentaryButton::init() {
 
 bool MomentaryButton::isDown(bool direct) {
     if (direct) {
-        return inverted ? !digitalReadFast(pinNumber) : digitalReadFast(pinNumber);
+        return inverted ? !digitalRead(pinNumber) : digitalRead(pinNumber);
     }
     return dbState;
 }

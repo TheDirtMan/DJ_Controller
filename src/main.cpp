@@ -1,29 +1,18 @@
+#include "pins_arduino.h"
 #include <Arduino.h>
 #include <HardwareWrapper.h>
 
-LED statusLED(LED_BUILTIN);
-
-MomentaryButton onButton(3);
-MomentaryButton offButton(4);
+Potentiometer knob(A0);
+LED builtin(LED_BUILTIN);
 
 void setup() {
-  statusLED.init();
-  statusLED.setState(true);
-
-  onButton.init();
-  offButton.init();
+  knob.init();
+  builtin.init();
+  builtin.setState(true);
 }
 
 void loop() {
-  if (onButton.wasPressed()) {
-    statusLED.setState(true);
-  }
-  if (offButton.wasPressed()) {
-    statusLED.setState(false);
-  }
-
-  onButton.update();
-  offButton.update();
-  
+  knob.update();
+  builtin.setBrightness(knob.getPosition());
   delay(1);
 }
