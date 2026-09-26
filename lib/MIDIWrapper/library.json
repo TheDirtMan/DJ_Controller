@@ -1,0 +1,22 @@
+{
+  "name": "HardwareWrapper",
+  "version": "0.0.1",
+  "description": "Reusable MIDI code for Teensy projects. May not work for you ;)",
+  "keywords": [
+    "teensy",
+    "midi",
+    "embedded"
+  ],
+  "authors": [
+    {
+      "name": "TheDirtMan"
+    }
+  ],
+  "license": "MIT",
+  "frameworks": [
+    "arduino"
+  ],
+  "platforms": [
+    "teensy"
+  ]
+}
